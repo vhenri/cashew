@@ -9,6 +9,7 @@ import com.vhenri.cachew.data.LightbulbBucketParameter.NUM_EACH_COLOR
 import com.vhenri.cachew.data.LightbulbItem
 import org.koin.core.component.KoinComponent
 import java.lang.Exception
+import java.math.RoundingMode
 import kotlin.random.Random
 
 class MainViewModel() : ViewModel(), KoinComponent {
@@ -18,7 +19,7 @@ class MainViewModel() : ViewModel(), KoinComponent {
     var numBulbsPicked = SingleLiveEvent<Int>().apply { value = 0 } // m
     private var numSims = SingleLiveEvent<Int>().apply { value = 1 } // n
     var totalUniqueColors = SingleLiveEvent<Int>()
-    var averageUniqueColors = SingleLiveEvent<Int>()
+    var averageUniqueColors = SingleLiveEvent<Float>()
 
 
     fun onTotalAvailableChanged(
@@ -86,9 +87,9 @@ class MainViewModel() : ViewModel(), KoinComponent {
             sumRuns += numberOfUniqueColors
         }
         if (numRuns != 0){
-            averageUniqueColors.postValue(sumRuns/numRuns)
+            averageUniqueColors.postValue(sumRuns.toFloat()/numRuns.toFloat())
         } else {
-            averageUniqueColors.postValue(0)
+            averageUniqueColors.postValue(0.toFloat())
         }
     }
     private fun getNumberOfUniqueColors(): Int {

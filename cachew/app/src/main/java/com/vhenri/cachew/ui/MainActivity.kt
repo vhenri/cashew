@@ -3,7 +3,6 @@ package com.vhenri.cachew.ui
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.vhenri.cachew.R
@@ -33,9 +32,6 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initObservers(){
-        mainViewModel.totalAvailableBulbs.observe(this, Observer {
-            Log.d("###", "$it")
-        })
         mainViewModel.totalUniqueColors.observe(this, Observer {
             binding.uniqueColorsText.visibility = View.VISIBLE
             val text = getString(R.string.unique_colors_text)
@@ -44,7 +40,8 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.averageUniqueColors.observe(this, Observer {
             binding.averageColorsText.visibility = View.VISIBLE
             val text = getString(R.string.average_unique_colors)
-            binding.averageColorsText.text = "$text $it"
+            val num = "%.2f".format(it)
+            binding.averageColorsText.text = "$text $num"
         })
     }
 }

@@ -21,3 +21,21 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+
+*.iml
+cachew/.gradle
+cachew/local.properties
+cachew/.idea/caches
+cachew/.idea/libraries
+cachew/.idea/modules.xml
+cachew/.idea/workspace.xml
+cachew/.idea/navEditor.xml
+cachew/.idea/assetWizardSettings.xml
+cachew/app/build
+cachew/.idea
+cachew/build
+cachew/captures
+.DS_Store
+.externalNativeBuild
+.cxx
