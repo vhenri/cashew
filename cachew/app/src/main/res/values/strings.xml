@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">cachew</string>
+    <string name="unique_colors_text">Number of Unique Colors (1 Simulation): </string>
+    <string name="average_unique_colors">Average number of Unique Colors (Avg of Simulation):  </string>
     <string name="info_text">You have a bucket of i lightbulbs of j different colours, k of each colour. The program should randomly pick m number of lightbulbs from the bucket and determine the number of unique colours you receive. The inputs i, j, k and m is determined by input fields.  Extend the simulation to determine the expected number of unique colours in after running this scenario n number of times (in other words, the average output of the simulation).</string>
     <string name="totalAvailableBulbs_label"> (i) Total number of lightbulbs available</string>
     <string name="numBulbColors_label"> (j) Number of lightbulb colors</string>

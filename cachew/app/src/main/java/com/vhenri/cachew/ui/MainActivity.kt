@@ -1,9 +1,12 @@
 package com.vhenri.cachew.ui
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.Observer
+import com.vhenri.cachew.R
 import com.vhenri.cachew.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -22,11 +25,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBindings(){
         binding.viewModel = mainViewModel
+        binding.btnRunSim.setOnClickListener {
+            binding.infoText.visibility = View.GONE
+            mainViewModel.runSimulation()
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initObservers(){
         mainViewModel.totalAvailableBulbs.observe(this, Observer {
             Log.d("###", "$it")
+        })
+        mainViewModel.totalUniqueColors.observe(this, Observer {
+            binding.uniqueColorsText.visibility = View.VISIBLE
+            val text = getString(R.string.unique_colors_text)
+            binding.uniqueColorsText.text = "$text $it"
+        })
+        mainViewModel.averageUniqueColors.observe(this, Observer {
+            binding.averageColorsText.visibility = View.VISIBLE
+            val text = getString(R.string.average_unique_colors)
+            binding.averageColorsText.text = "$text $it"
         })
     }
 }
