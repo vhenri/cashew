@@ -9,7 +9,9 @@
     <string name="numBulbsPicked_label"> (m) Number of lightbulbs to randomly pick</string>
     <string name="numSims_label"> (n) Number of times to run the simulation </string>
     <string name="runSim_btn_text"> Run Simulation </string>
-
+    <string name="error_oom_title">Something Went Wrong!</string>
+    <string name="error_oom_text"> The simulation you are trying to run is too big! Please try again with smaller numbers :)</string>
+    <string name="loading">Loading Simulation…</string>
     <string name="zero">0</string>
     <string name="one">1</string>
 </resources>

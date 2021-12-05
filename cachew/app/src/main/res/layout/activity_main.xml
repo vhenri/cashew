@@ -1,179 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <variable
             name="viewModel"
-            type ="com.vhenri.cachew.ui.MainViewModel"/>
+            type="com.vhenri.cachew.ui.MainViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
-        android:fillViewport="true"
-        android:isScrollContainer="false"
-        android:scrollbars="vertical"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="6dp"
-        tools:context=".ui.MainActivity">
+        android:fillViewport="true"
+        android:isScrollContainer="false"
+        android:scrollbars="vertical">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/image"
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="18dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_baseline_highlight_24" />
+            android:layout_height="match_parent"
+            android:paddingHorizontal="6dp"
+            tools:context=".ui.MainActivity">
 
-        <TextView
-            android:id="@+id/info_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/info_text"
-            android:gravity="center_horizontal"
-            android:layout_marginVertical="18dp"
-            android:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image"
-            />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_highlight_24" />
 
-        <TextView
-            android:id="@+id/unique_colors_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/unique_colors_text"
-            android:gravity="center_horizontal"
-            android:layout_marginVertical="18dp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/info_text"
-            />
-
-        <TextView
-            android:id="@+id/average_colors_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/average_unique_colors"
-            android:gravity="center_horizontal"
-            android:layout_marginVertical="18dp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/unique_colors_text"
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_i"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="9dp"
-            app:layout_constraintTop_toBottomOf="@+id/average_colors_text"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="@string/totalAvailableBulbs_label">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/total_available_bulbs"
-                android:inputType="number"
+            <TextView
+                android:id="@+id/info_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onTextChanged="@{viewModel::onTotalAvailableChanged}"
-                />
+                android:layout_marginVertical="18dp"
+                android:gravity="center_horizontal"
+                android:text="@string/info_text"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_j"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="9dp"
-            app:layout_constraintTop_toBottomOf="@+id/textField_i"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="@string/numBulbColors_label">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/num_bulb_colors_textInput"
-                android:inputType="number"
+            <TextView
+                android:id="@+id/unique_colors_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onTextChanged="@{viewModel::onNumBulbColorsChanged}"
-                />
+                android:layout_marginVertical="18dp"
+                android:gravity="center_horizontal"
+                android:text="@string/unique_colors_text"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/info_text" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_k"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="9dp"
-            app:layout_constraintTop_toBottomOf="@+id/textField_j"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="@string/numEachColor_label">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/num_each_color_textInput"
-                android:inputType="number"
+            <TextView
+                android:id="@+id/average_colors_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onTextChanged="@{viewModel::onNumEachColorChanged}"
-                />
+                android:layout_marginVertical="18dp"
+                android:gravity="center_horizontal"
+                android:paddingBottom="9dp"
+                android:text="@string/average_unique_colors"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/unique_colors_text" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_m"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="9dp"
-            app:layout_constraintTop_toBottomOf="@+id/textField_k"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="@string/numBulbsPicked_label">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/num_bulbs_picked_textInput"
-                android:inputType="number"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField_i"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onTextChanged="@{viewModel::onNumBulbsPickedChanged}"
-                />
+                android:hint="@string/totalAvailableBulbs_label"
+                android:paddingVertical="9dp"
+                app:layout_constraintTop_toBottomOf="@+id/average_colors_text">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/total_available_bulbs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:onTextChanged="@{viewModel::onTotalAvailableChanged}" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField_n"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="9dp"
-            app:layout_constraintTop_toBottomOf="@+id/textField_m"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="@string/numSims_label">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/numSims_textInput"
-                android:inputType="number"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField_j"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onTextChanged="@{viewModel::onNumSimChanged}"
-                />
+                android:hint="@string/numBulbColors_label"
+                android:paddingVertical="9dp"
+                app:layout_constraintTop_toBottomOf="@+id/textField_i">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/num_bulb_colors_textInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:onTextChanged="@{viewModel::onNumBulbColorsChanged}" />
 
-        <Button
-            app:layout_constraintTop_toBottomOf="@+id/textField_n"
-            android:id="@+id/btn_runSim"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/runSim_btn_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField_k"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/numEachColor_label"
+                android:paddingVertical="9dp"
+                app:layout_constraintTop_toBottomOf="@+id/textField_j">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/num_each_color_textInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:onTextChanged="@{viewModel::onNumEachColorChanged}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField_m"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/numBulbsPicked_label"
+                android:paddingVertical="9dp"
+                app:layout_constraintTop_toBottomOf="@+id/textField_k">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/num_bulbs_picked_textInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:onTextChanged="@{viewModel::onNumBulbsPickedChanged}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField_n"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/numSims_label"
+                android:paddingVertical="9dp"
+                app:layout_constraintTop_toBottomOf="@+id/textField_m">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/numSims_textInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:onTextChanged="@{viewModel::onNumSimChanged}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_runSim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/runSim_btn_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textField_n" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

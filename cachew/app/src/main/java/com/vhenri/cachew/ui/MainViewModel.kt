@@ -1,26 +1,26 @@
 package com.vhenri.cachew.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.vhenri.cachew.core.lifecycle.SingleLiveEvent
-import com.vhenri.cachew.data.LightbulbBucketParameter
-import com.vhenri.cachew.data.LightbulbBucketParameter.TOTAL_AVAILABLE_BULBS
-import com.vhenri.cachew.data.LightbulbBucketParameter.NUM_BULB_COLORS
-import com.vhenri.cachew.data.LightbulbBucketParameter.NUM_EACH_COLOR
 import com.vhenri.cachew.data.LightbulbItem
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import java.lang.Exception
-import java.math.RoundingMode
 import kotlin.random.Random
 
 class MainViewModel() : ViewModel(), KoinComponent {
-    var totalAvailableBulbs = SingleLiveEvent<Int>().apply { value = 0 } // i
-    var numBulbColors = SingleLiveEvent<Int>().apply { value = 0 } // j
-    var numEachColor = SingleLiveEvent<Int>().apply { value = 0 } // k
-    var numBulbsPicked = SingleLiveEvent<Int>().apply { value = 0 } // m
-    private var numSims = SingleLiveEvent<Int>().apply { value = 1 } // n
-    var totalUniqueColors = SingleLiveEvent<Int>()
-    var averageUniqueColors = SingleLiveEvent<Float>()
+    var oomError = false
 
+    private val totalAvailableBulbs = SingleLiveEvent<Int>().apply { value = 0 } // i
+    private val numBulbColors = SingleLiveEvent<Int>().apply { value = 0 } // j
+    private val numEachColor = SingleLiveEvent<Int>().apply { value = 0 } // k
+    private val numBulbsPicked = SingleLiveEvent<Int>().apply { value = 0 } // m
+    private var numSims = SingleLiveEvent<Int>().apply { value = 1 } // n
+    val totalUniqueColors = SingleLiveEvent<Int>()
+    val averageUniqueColors = SingleLiveEvent<Float>()
+    val showError = SingleLiveEvent<Boolean>().apply { value = false }
 
     fun onTotalAvailableChanged(
         s: CharSequence,
@@ -31,6 +31,7 @@ class MainViewModel() : ViewModel(), KoinComponent {
         val value = s.toString()
         totalAvailableBulbs.postValue(intFromValue(value))
     }
+
     fun onNumBulbColorsChanged(
         s: CharSequence,
         start: Int,
@@ -40,6 +41,7 @@ class MainViewModel() : ViewModel(), KoinComponent {
         val value = s.toString()
         numBulbColors.postValue(intFromValue(value))
     }
+
     fun onNumEachColorChanged(
         s: CharSequence,
         start: Int,
@@ -49,6 +51,7 @@ class MainViewModel() : ViewModel(), KoinComponent {
         val value = s.toString()
         numEachColor.postValue(intFromValue(value))
     }
+
     fun onNumBulbsPickedChanged(
         s: CharSequence,
         start: Int,
@@ -58,6 +61,7 @@ class MainViewModel() : ViewModel(), KoinComponent {
         val value = s.toString()
         numBulbsPicked.postValue(intFromValue(value))
     }
+
     fun onNumSimChanged(
         s: CharSequence,
         start: Int,
@@ -71,54 +75,84 @@ class MainViewModel() : ViewModel(), KoinComponent {
     private fun intFromValue(stringValue: String): Int {
         return try {
             stringValue.toInt()
-        } catch (e: Exception){
+        } catch (e: Exception) {
             0
         }
     }
 
-    fun runSimulation(){
-        val numRuns = numSims.value ?: 1
-        var sumRuns = 0
-        for (run in 0 until numRuns){
-            val numberOfUniqueColors = getNumberOfUniqueColors()
-            if (run == 0){
-                totalUniqueColors.postValue(numberOfUniqueColors)
+    fun runSimulation() {
+        viewModelScope.launch {
+            val numRuns = numSims.value ?: 1
+            var sumRuns = 0
+            simLoop@ for (run in 0 until numRuns) {
+                if (oomError) {
+                    break@simLoop
+                }
+                val numberOfUniqueColors = getNumberOfUniqueColors()
+                if (run == 0) {
+                    totalUniqueColors.postValue(numberOfUniqueColors)
+                }
+                sumRuns += numberOfUniqueColors
             }
-            sumRuns += numberOfUniqueColors
-        }
-        if (numRuns != 0){
-            averageUniqueColors.postValue(sumRuns.toFloat()/numRuns.toFloat())
-        } else {
-            averageUniqueColors.postValue(0.toFloat())
+            // Check for divide by zero
+            if (numRuns != 0) {
+                averageUniqueColors.postValue(sumRuns.toFloat() / numRuns.toFloat())
+            } else {
+                averageUniqueColors.postValue(0.toFloat())
+            }
+            if (oomError) {
+                showError.postValue(true)
+            }
         }
     }
+
     private fun getNumberOfUniqueColors(): Int {
+        val bucket = createBulbBucket()
+        return if (!oomError) {
+            val pickedBulbs = pickBulbs(bucket)
+            pickedBulbs.distinct().size
+        } else {
+            0
+        }
+    }
+
+    private fun createBulbBucket(): ArrayList<LightbulbItem> {
         val bucket = arrayListOf<LightbulbItem>()
         val numColors = numBulbColors.value ?: 0
         val numOfEachColor = numEachColor.value ?: 0
-        var bulbsToPick = numBulbsPicked.value?: 0
 
         // Add the bulbs to the bucket
-        for (j in 0 until numColors){
-            for (k in 0 until numOfEachColor){
-                bucket.add(LightbulbItem(j))
+        loop@ for (j in 0 until numColors) {
+            for (k in 0 until numOfEachColor) {
+                try {
+                    bucket.add(LightbulbItem(j))
+                } catch (e: OutOfMemoryError) {
+                    Log.d("###", "Error occurred! $e")
+                    oomError = true
+                    break@loop
+                }
             }
         }
-        val randomSeed = Random.nextInt()
+
+        return bucket
+    }
+
+    private fun pickBulbs(bucket: ArrayList<LightbulbItem>): List<LightbulbItem> {
+        var bulbsToPick = numBulbsPicked.value ?: 0
         // Using a seeded random generator to make testing/debugging more repeatable.
+        val randomSeed = Random.nextInt()
         val randomGenerator = Random(randomSeed)
-        for (i in 0 until bulbsToPick){
+
+        for (i in 0 until bulbsToPick) {
             val randomIndex = randomGenerator.nextInt(0, bucket.size)
             val pickedBulb = bucket[randomIndex]
-            if (!pickedBulb.picked){
+            if (!pickedBulb.picked) {
                 pickedBulb.picked = true
             } else {
                 // if we've already picked the bulb, add another iteration
-                bulbsToPick ++
+                bulbsToPick++
             }
         }
-        val distinctArray = bucket.filter{bulb -> bulb.picked }.distinct()
-
-        return distinctArray.size
+        return bucket.filter { bulb -> bulb.picked }
     }
 }
