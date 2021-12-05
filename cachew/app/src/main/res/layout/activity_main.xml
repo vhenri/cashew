@@ -82,6 +82,7 @@
                     android:id="@+id/total_available_bulbs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="0123456789"
                     android:inputType="number"
                     android:maxLength="5"
                     android:onTextChanged="@{viewModel::onTotalAvailableChanged}" />
@@ -102,6 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:digits="0123456789"
                     android:maxLength="5"
                     android:onTextChanged="@{viewModel::onNumBulbColorsChanged}" />
 
@@ -121,6 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:digits="0123456789"
                     android:maxLength="5"
                     android:onTextChanged="@{viewModel::onNumEachColorChanged}" />
 
@@ -140,6 +143,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:digits="0123456789"
                     android:maxLength="5"
                     android:onTextChanged="@{viewModel::onNumBulbsPickedChanged}" />
 
@@ -160,6 +164,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:inputType="number"
+                    android:digits="0123456789"
                     android:maxLength="5"
                     android:onTextChanged="@{viewModel::onNumSimChanged}" />
 

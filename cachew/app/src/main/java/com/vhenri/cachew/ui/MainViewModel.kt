@@ -74,7 +74,7 @@ class MainViewModel() : ViewModel(), KoinComponent {
 
     private fun intFromValue(stringValue: String): Int {
         return try {
-            stringValue.toInt()
+            kotlin.math.abs(stringValue.toInt())
         } catch (e: Exception) {
             0
         }
